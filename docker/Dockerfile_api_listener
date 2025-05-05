@@ -1,0 +1,8 @@
+FROM python:3
+
+WORKDIR /data/OPS
+
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+CMD ["python3", "/data/OPS/API_Auto_LISTENER_redis.py"] 

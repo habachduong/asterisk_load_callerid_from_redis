@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: asterisk
+      MYSQL_USER: asterisk_user
+      MYSQL_PASSWORD: asterisk_pass
+      MYSQL_ROOT_PASSWORD: rootpass
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  asterisk:
+    build:
+      context: .
+      dockerfile: Dockerfile_asterisk
+    container_name: asterisk
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+    volumes:
+      - ../conf/asterisk/extensions.conf:/etc/asterisk/extensions.conf
+      - ../agi-bin:/data/
+      - asterisk_recordings:/var/spool/asterisk/monitor
+    ports:
+      - "5060:5060/udp"
+      - "8088:8088"
+      - "5038:5038"
+      - "10000-20000:10000-20000/udp"
+    depends_on:
+      - mysql
+      - redis
+    restart: unless-stopped
+
+  api_listener:
+    build:
+      context: .
+      dockerfile: Dockerfile_api_listener
+    container_name: api_listener
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ../:/data/OPS
+      - ../conf/OPS.conf:/etc/OPS.conf
+    ports:
+      - "5044:5044"
+      - "5045:5045"
+      - "5050:5050"
+    depends_on:
+      - mysql
+      - redis
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  redis_data:
+  asterisk_recordings: 

@@ -1,0 +1,5 @@
+hvac
+requests
+mysql-connector-python
+openpyxl
+pandas
