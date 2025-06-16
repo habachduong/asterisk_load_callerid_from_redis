@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 from asterisk.agi import *
-from redis_OPS import *
+from redis_ABC import *
 
 agi = AGI()
 
@@ -19,7 +19,7 @@ new_cid_number=result["default_callerid"]
 trunk_name=result["default_trunk_name"]
 route_number=result["default_route_number"]
 
-# callerid_json=get_pstn_callerid_last(conn,"callerid_infor", 'OPS_TRUNK')
+# callerid_json=get_pstn_callerid_last(conn,"callerid_infor", 'ABC_TRUNK')
 agi.verbose("### python agi started ###")
 
 # if callerid_json!=-1:
@@ -29,9 +29,9 @@ agi.verbose("### python agi started ###")
 	# route_number=callerid_info['callerid']["route_number"]
 
 if(new_cid_number==''):
-	new_cid_number='02473002556';
+	new_cid_number='0247300XXX6';
 if(trunk_name==''):
-	trunk_name='OPS_TRUNK';
+	trunk_name='ABC_TRUNK';
 if(route_number==""):
 	route_number="0";
 
