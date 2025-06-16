@@ -22,7 +22,7 @@ class MyConfigParser(ConfigParser):
 
 # Read configuration from file
 config = MyConfigParser()
-config.read('/etc/OPS.conf')
+config.read('/etc/ABC.conf')
 
 # Get Redis connection parameters from config
 redis_host = config.get('global', 'redis_host')     
@@ -44,7 +44,7 @@ index_callerid="callerid_infor"
     #         "calls_count": 42,
     #         "status":0,
     #         "lastcall":"",
-    #         "TRUNK_NAME": "OPS_TRUNK",
+    #         "TRUNK_NAME": "ABC_TRUNK",
     #     }
     # }
 ###########################
